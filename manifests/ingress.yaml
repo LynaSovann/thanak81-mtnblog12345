@@ -1,0 +1,26 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: thanak81-mtnblog12345-https-ingress
+  namespace: thanak81-mtnblog12345
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/use-regex: "true"
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - thanak81-mtnblog12345.assessify.org
+      secretName: thanak81-mtnblog12345-secret-tls
+  rules:
+    - host: thanak81-mtnblog12345.assessify.org
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: thanak81-mtnblog12345-service
+                port:
+                  number: 8155
